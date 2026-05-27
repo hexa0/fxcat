@@ -37,12 +37,22 @@ function getLinks(text: string): string[] {
 	return text.match(urlExp) ?? [];
 }
 
-function respondTo(
+async function respondTo(
 	message: OmitPartialGroupDMChannel<Message<boolean>>,
 	url: URL,
 ) {
 	message.reply(url.toString());
 	message.suppressEmbeds();
+
+	// it's an absolute hack but sometimes this doesn't work instantly
+
+	setTimeout(() => {
+		message.suppressEmbeds();
+	}, 1000);
+
+	setTimeout(() => {
+		message.suppressEmbeds();
+	}, 2000);
 }
 
 function fixUrl(url: URL) {
