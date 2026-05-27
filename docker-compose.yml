@@ -1,0 +1,8 @@
+services:
+    bot:
+        build: .
+        restart: unless-stopped
+        volumes:
+            - /app/node_modules
+        env_file:
+            - .env
