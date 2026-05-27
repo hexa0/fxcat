@@ -27,7 +27,7 @@ const client = new Client({
 client.cluster = new ClusterClient(client);
 
 client.once("clientReady", () => {
-	console.log("ready!".green);
+	console.log("client ready".green);
 });
 
 const urlExp =
@@ -37,7 +37,7 @@ function getLinks(text: string): string[] {
 	return text.match(urlExp) ?? [];
 }
 
-function respond(
+function respondTo(
 	message: OmitPartialGroupDMChannel<Message<boolean>>,
 	url: URL,
 ) {
@@ -45,35 +45,37 @@ function respond(
 	message.suppressEmbeds();
 }
 
+function fixUrl(url: URL) {
+	switch (url.host) {
+		case "www.tiktok.com":
+			url.host = "www.tnktok.com";
+			return true;
+		case "x.com":
+			url.host = "fixupx.com";
+			return true;
+		case "twitter.com":
+			url.host = "fxtwitter.com";
+			return true;
+		case "www.instagram.com":
+			url.host = "www.kkinstagram.com";
+			return true;
+		case "bsky.app":
+			url.host = "bskyx.app";
+			return true;
+		case "witchsky.app":
+			url.host = "bskyx.app";
+			return true;
+	}
+
+	return false;
+}
+
 client.on("messageCreate", (message) => {
 	getLinks(message.content).forEach((link) => {
 		const url = new URL(link);
 
-		switch (url.host) {
-			case "www.tiktok.com":
-				url.host = "www.tnktok.com";
-				respond(message, url);
-				break;
-			case "x.com":
-				url.host = "fixupx.com";
-				respond(message, url);
-				break;
-			case "twitter.com":
-				url.host = "fxtwitter.com";
-				respond(message, url);
-				break;
-			case "www.instagram.com":
-				url.host = "www.kkinstagram.com";
-				respond(message, url);
-				break;
-			case "bsky.app":
-				url.host = "bskyx.app";
-				respond(message, url);
-				break;
-			case "witchsky.app":
-				url.host = "bskyx.app";
-				respond(message, url);
-				break;
+		if (fixUrl(url)) {
+			respondTo(message, url)
 		}
 	});
 });

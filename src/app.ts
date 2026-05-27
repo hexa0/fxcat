@@ -11,24 +11,25 @@ const manager = new ClusterManager(path.join(__dirname, "./bot.ts"), {
 });
 
 manager.on("clusterCreate", (cluster) => {
-	console.log(`Launched Cluster ${cluster.id}`.green);
+	console.log(`launched cluster ${cluster.id}`.green);
 
 	cluster.on("shardReady", (shardID) =>
-		console.log(`Shard Ready ${shardID}`.green),
+		console.log(`shard ready ${shardID}`.green),
 	);
 	cluster.on("shardReconnecting", (shardID) =>
-		console.log(`Shard Reconnecting ${shardID}`.yellow),
+		// in the original sans bot code i used .orange here, i have no damn clue why that type doesn't exist so i use .yellow instead
+		console.log(`shard reconnecting ${shardID}`.yellow),
 	);
 	cluster.on("shardResume", (shardID) =>
-		console.log(`Shard Resumed ${shardID}`.green),
+		console.log(`shard resumed ${shardID}`.green),
 	);
 	cluster.on("shardDisconnect", (shardID) =>
-		console.log(`Shard Disconnected ${shardID}`.red),
+		console.log(`shard disconnected ${shardID}`.red),
 	);
 });
 
 manager.on("clusterReady", (cluster) =>
 	console.log(`Cluster ${cluster.id} is ready`.green),
 );
-manager.on("debug", (message) => console.log(`DEBUG: ${message}`.yellow));
+// manager.on("debug", (message) => console.log(`debug: ${message}`.yellow));
 manager.spawn();
