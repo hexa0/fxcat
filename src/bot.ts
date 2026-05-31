@@ -58,7 +58,10 @@ async function respondTo(
 function fixUrl(url: URL) {
 	switch (url.host) {
 		case "www.tiktok.com":
-			url.host = "www.tnktok.com";
+			url.host = "tnktok.com";
+			return true;
+		case "vm.tiktok.com":
+			url.host = "tnktok.com";
 			return true;
 		case "x.com":
 			url.host = "fixupx.com";
@@ -67,7 +70,7 @@ function fixUrl(url: URL) {
 			url.host = "fxtwitter.com";
 			return true;
 		case "www.instagram.com":
-			url.host = "www.kkinstagram.com";
+			url.host = "kkinstagram.com";
 			return true;
 		case "bsky.app":
 			url.host = "bskyx.app";
